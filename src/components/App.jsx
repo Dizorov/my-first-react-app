@@ -113,7 +113,7 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("render", this.state.page);
+    console.log("render");
     return (
       <div className="container-fluid">
         <div className="row mt-4">
