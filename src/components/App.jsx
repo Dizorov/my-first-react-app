@@ -70,20 +70,16 @@ class App extends React.Component {
   };
 
   nextPage = () => {
-    if (this.state.page <= this.state.total_pages) {
       this.setState({
         page: this.state.page + 1
       });
-    }
   };
 
   prevPage = () => {
-    if (this.state.page !== 1) {
       this.setState({
         page: this.state.page - 1
       });
     }
-  };
 
   getMovies = ({ page }) => {
     fetch(
