@@ -23,17 +23,15 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log("did mount");
-    this.getMovies();
+    this.getMovies({ page: 1 });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log("did update");
     if (this.state.sort_by !== prevState.sort_by) {
-      // console.log("call api");
-      this.getMovies();
-      this.setState({
-        page: 1
-      });
+      this.getMovies({ page: 1 });
+    }
+    if (this.state.page !== prevState.page) {
+      this.getMovies({ page: this.state.page });
     }
   }
 
@@ -76,9 +74,6 @@ class App extends React.Component {
       this.setState({
         page: this.state.page + 1
       });
-      setTimeout(() => {
-        this.getMovies();
-      }, 0);
     }
   };
 
@@ -87,17 +82,14 @@ class App extends React.Component {
       this.setState({
         page: this.state.page - 1
       });
-      setTimeout(() => {
-        this.getMovies();
-      }, 0);
     }
   };
 
-  getMovies = () => {
+  getMovies = ({ page }) => {
     fetch(
       `${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${
         this.state.sort_by
-      }&page=${this.state.page}`
+      }&page=${page}`
     )
       .then(response => {
         return response.json();
@@ -106,7 +98,8 @@ class App extends React.Component {
         // console.log(data);
         this.setState({
           movies: data.results,
-          total_pages: data.total_pages
+          total_pages: data.total_pages,
+          page: data.page,
         });
         // console.log(this.state);
       });
